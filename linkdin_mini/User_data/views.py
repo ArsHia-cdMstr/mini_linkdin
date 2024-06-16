@@ -1,7 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from . import forms
 from .forms import CustomUserCreationForm
+from .models import CustomUser
+
 
 def home(request):
     return render(request, 'home.html')
@@ -12,11 +14,15 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('home')  # Redirect to home or any other page
+            return redirect('Home')  # Redirect to home or any other page
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
 
-def profile(request):
-    return render(request, 'home.html')
+def profile(request, username):
+    user = get_object_or_404(CustomUser, username=username)  # گرفتن کاربر با نام کاربری
+    context = {
+        'user': user
+    }
+    return render(request, 'profile.html', context)

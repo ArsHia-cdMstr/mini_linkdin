@@ -1,0 +1,23 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Profile{% endblock %}
+
+{% block container_block %}
+<div class="profile-container">
+    <h1>Profile of {{ user.username }}</h1>
+    <div class="profile-details">
+        <p><strong>Full Name:</strong> {{ user.fullName }}</p>
+        <p><strong>Age:</strong> {{ user.age }}</p>
+        <p><strong>Bio:</strong> {{ user.bio }}</p>
+        <p><strong>Birth Date:</strong> {{ user.birthDate }}</p>
+        <p><strong>Gender:</strong> {{ user.get_gender_display }}</p>
+        {% if user.profile_image %}
+            <p><strong>Profile Image:</strong> <img src="{{ user.profile_image.url }}" alt="Profile Image" style="max-width:200px;"></p>
+        {% endif %}
+        {% if user.profile_header_image %}
+            <p><strong>Profile Header Image:</strong> <img src="{{ user.profile_header_image.url }}" alt="Profile Header Image" style="max-width:200px;"></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
