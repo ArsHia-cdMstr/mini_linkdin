@@ -4,7 +4,7 @@ from django.urls import reverse
 from . import forms
 from .forms import CustomUserCreationForm
 from .models import CustomUser
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import get_user_model
 from django.http import Http404
 
@@ -22,7 +22,7 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-@login_required 
+
 def user_id(request, username):
     user = get_object_or_404(CustomUser, username=username)  # گرفتن کاربر با نام کاربری
     context = {
@@ -66,3 +66,11 @@ def my_profile(request):
         return redirect('user_profile', username=username)
     else:
         raise Http404("You must be logged in to view this page.")
+    
+
+def admin_required(user):
+    return user.is_superuser
+
+@user_passes_test(admin_required)
+def requests(request):
+    pass
