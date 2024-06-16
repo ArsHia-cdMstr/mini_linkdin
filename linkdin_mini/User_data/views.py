@@ -8,11 +8,11 @@ def home(request):
 
 def signup(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('Home')  # Redirect to home or any other page
+            return redirect('home')  # Redirect to home or any other page
     else:
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})

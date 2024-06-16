@@ -1,4 +1,4 @@
-# forms.py in your app
+# forms.py
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
@@ -10,10 +10,12 @@ class CustomUserCreationForm(UserCreationForm):
     bio = forms.CharField(label='Bio', max_length=256, widget=forms.Textarea(attrs={'rows': 3, 'cols': 50}))
     birthDate = forms.DateField(label='Birth Date', widget=forms.DateInput(attrs={'type': 'date'}))
     gender = forms.ChoiceField(label='Gender', choices=CustomUser.GENDER_CHOICES)
+    profile_image = forms.ImageField(label='Profile Image', required=False)
+    profile_header_image = forms.ImageField(label='Profile Header Image', required=False)
 
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ('username', 'fullName', 'age', 'bio', 'birthDate', 'gender', 'password1', 'password2')
+        fields = ('username', 'fullName', 'age', 'bio', 'birthDate', 'gender', 'profile_image', 'profile_header_image', 'password1', 'password2')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -22,6 +24,8 @@ class CustomUserCreationForm(UserCreationForm):
         user.bio = self.cleaned_data['bio']
         user.birthDate = self.cleaned_data['birthDate']
         user.gender = self.cleaned_data['gender']
+        user.profile_image = self.cleaned_data.get('profile_image')
+        user.profile_header_image = self.cleaned_data.get('profile_header_image')
         if commit:
             user.save()
         return user
