@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
+from django.urls import reverse
 from . import forms
 from .forms import CustomUserCreationForm
 from .models import CustomUser
@@ -26,3 +27,19 @@ def profile(request, username):
         'user': user
     }
     return render(request, 'profile.html', context)
+
+def user_login(request):
+    if request.method == 'POST':
+        form = forms.LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect(reverse('user_profile', kwargs={'username': user.username}))  # Redirect to home page or any other page after successful login
+            else:
+                form.add_error(None, 'Invalid username or password')
+    else:
+        form = forms.LoginForm()
+    return render(request, 'login.html', {'form': form})

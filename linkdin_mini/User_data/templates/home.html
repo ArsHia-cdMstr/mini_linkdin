@@ -25,17 +25,14 @@
                         <a class="nav-link active" aria-current="page" href="{% url 'Home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'signup-form' %}">sign-up</a>
-                    </li>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin/">admin</a>
-                    </li>
+                        <a class="nav-link" href="{% url 'signup-form' %}">Sign-up</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="signup-form">sign-up</a>
+                        <a class="nav-link" href="admin/">Admin</a>
                     </li>
-
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">login</a>
+                    </li>
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
@@ -47,7 +44,7 @@
         </div>
     </nav>
 
-    <div class="container">{% block container_block %} {% endblock %}</div>
+    <div class="container mt-5">{% block container_block %}{% endblock %}</div>
 </body>
 
 </html>
