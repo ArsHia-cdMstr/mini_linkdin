@@ -21,12 +21,12 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 @login_required 
-def profile(request, username):
+def user_id(request, username):
     user = get_object_or_404(CustomUser, username=username)  # گرفتن کاربر با نام کاربری
     context = {
         'user': user
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'user_id.html', context)
 
 def user_login(request):
     if request.method == 'POST':
@@ -48,3 +48,8 @@ def user_login(request):
 def explore(request):
     users = CustomUser.objects.all()  # یا User.objects.all() اگر از مدل پیش‌فرض استفاده می‌کنید
     return render(request, 'explore.html', {'users': users})
+
+
+def user_logout(request):
+    logout(request)
+    return redirect('Home')  # Redirect to home or any other page after logout
