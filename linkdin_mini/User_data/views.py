@@ -5,6 +5,8 @@ from . import forms
 from .forms import CustomUserCreationForm
 from .models import CustomUser
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
+from django.http import Http404
 
 def home(request):
     return render(request, 'home.html')
@@ -53,3 +55,14 @@ def explore(request):
 def user_logout(request):
     logout(request)
     return redirect('Home')  # Redirect to home or any other page after logout
+
+User = get_user_model()
+
+@login_required
+def my_profile(request):
+    if request.user.is_authenticated:
+        username = request.user.username
+        # Redirect to user profile with their username
+        return redirect('user_profile', username=username)
+    else:
+        raise Http404("You must be logged in to view this page.")
