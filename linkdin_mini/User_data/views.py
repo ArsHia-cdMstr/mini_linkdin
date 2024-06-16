@@ -4,7 +4,7 @@ from django.urls import reverse
 from . import forms
 from .forms import CustomUserCreationForm
 from .models import CustomUser
-
+from django.contrib.auth.decorators import login_required
 
 def home(request):
     return render(request, 'home.html')
@@ -20,7 +20,7 @@ def signup(request):
         form = CustomUserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-
+@login_required 
 def profile(request, username):
     user = get_object_or_404(CustomUser, username=username)  # گرفتن کاربر با نام کاربری
     context = {
@@ -43,3 +43,8 @@ def user_login(request):
     else:
         form = forms.LoginForm()
     return render(request, 'login.html', {'form': form})
+
+
+def explore(request):
+    users = CustomUser.objects.all()  # یا User.objects.all() اگر از مدل پیش‌فرض استفاده می‌کنید
+    return render(request, 'explore.html', {'users': users})

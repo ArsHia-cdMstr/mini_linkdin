@@ -1,0 +1,26 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block title %}Explore Users{% endblock %}
+
+{% block container_block %}
+<div class="container">
+    <h1 class="mt-5 mb-4">Explore Users</h1>
+    <div class="row">
+        {% for user in users %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{% if user.profile_image %}{{ user.profile_image.url }}{% else %}{% static 'default_profile.jpg' %}{% endif %}" class="card-img-top rounded-circle" alt="Profile Image" style="width: 150px; height: 150px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{% url 'user_profile' username=user.username %}">{{ user.username }}</a></h5>
+                    <p class="card-text">Full Name: {{ user.fullName }}</p>
+                    <p class="card-text">Age: {{ user.age }}</p>
+                    <p class="card-text">Bio: {{ user.bio }}</p>
+                    <a href="{% url 'user_profile' username=user.username %}" class="btn btn-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
